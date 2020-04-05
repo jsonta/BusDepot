@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BusDepot.Models;
@@ -13,9 +11,9 @@ namespace BusDepot.Controllers
     [ApiController]
     public class BusesController : ControllerBase
     {
-        private readonly DepotContext _context;
+        private readonly RsrcsContext _context;
 
-        public BusesController(DepotContext context)
+        public BusesController(RsrcsContext context)
         {
             _context = context;
         }

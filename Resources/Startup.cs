@@ -1,11 +1,12 @@
-﻿using BusDepot.Models;
+using BusDepot.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace BusDepot
+namespace Resources
 {
     public class Startup
     {
@@ -19,24 +20,25 @@ namespace BusDepot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DepotContext>(opt => opt.UseInMemoryDatabase("Buses"));
-            services.AddMvc();
+            services.AddControllers();
+            services.AddEntityFrameworkNpgsql().AddDbContext<RsrcsContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

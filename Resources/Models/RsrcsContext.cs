@@ -2,9 +2,9 @@
 
 namespace BusDepot.Models
 {
-    public class DepotContext : DbContext
+    public class RsrcsContext : DbContext
     {
-        public DepotContext(DbContextOptions<DepotContext> options) : base(options)
+        public RsrcsContext(DbContextOptions<RsrcsContext> options) : base(options)
         {
         }
 
