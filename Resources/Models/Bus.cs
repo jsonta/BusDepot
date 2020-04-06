@@ -7,7 +7,7 @@
         public string Model { get; set; }
         public int? Axes { get; set; }
         public string VRN { get; set; }
-        public int? VId { get; set; }
+        //public int? VId { get; set; }
         public int? ProdYear { get; set; }
         public int? PrchYear { get; set; }
         public int? PlcsAmnt { get; set; }
@@ -22,8 +22,10 @@
                     return Id.HasValue;
                 case "Axes":
                     return Axes.HasValue;
+                /*
                 case "VId":
                     return VId.HasValue;
+                */
                 case "ProdYear":
                     return ProdYear.HasValue;
                 case "PrchYear":

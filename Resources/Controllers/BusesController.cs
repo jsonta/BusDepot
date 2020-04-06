@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BusDepot.Models;
 using System.Reflection;
-using System;
 
 namespace BusDepot.Controllers
 {
@@ -24,7 +23,7 @@ namespace BusDepot.Controllers
         [HttpGet]
         public IEnumerable<Bus> GetBuses()
         {
-            return _context.Buses;
+            return _context.Set<Bus>().OrderBy(bus => bus.Id);
         }
 
         // GET: api/Buses/5
@@ -62,33 +61,16 @@ namespace BusDepot.Controllers
                 }
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != bus.Id)
-            {
-                return BadRequest();
-            }
-
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BusExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            return NoContent();
+            return Ok(bus);
         }
 
         // POST: api/Buses
