@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BusDepot.Models;
+using System.Reflection;
+using System;
 
 namespace BusDepot.Controllers
 {
@@ -48,6 +50,18 @@ namespace BusDepot.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBus([FromRoute] int id, [FromBody] Bus bus)
         {
+            bus.Id = id;
+            foreach (PropertyInfo prop in typeof(Bus).GetProperties())
+            {
+                if (prop.GetValue(bus) != null || bus.HasIntValue(prop.Name))
+                {
+                    if (!prop.Name.Equals("Id"))
+                    {
+                        _context.Entry(bus).Property(prop.Name).IsModified = true;
+                    }
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -57,8 +71,6 @@ namespace BusDepot.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(bus).State = EntityState.Modified;
 
             try
             {
