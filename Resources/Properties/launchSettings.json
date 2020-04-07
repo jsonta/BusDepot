@@ -19,7 +19,6 @@
     },
     "Resources": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "api/Buses",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
