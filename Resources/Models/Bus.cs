@@ -1,4 +1,4 @@
-﻿namespace BusDepot.Models
+﻿namespace Resources.Models
 {
     public class Bus
     {

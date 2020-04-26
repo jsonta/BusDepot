@@ -1,56 +1,56 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Connections.Models;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
-using Resources.Models;
+using System.Reflection;
 
-namespace Resources.Controllers
+namespace Connections.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DriversController : ControllerBase
+    public class LinesController : ControllerBase
     {
-        private readonly RsrcsContext _context;
+        private readonly CnctnsContext _context;
         public IConfiguration Config { get; }
 
-        public DriversController(RsrcsContext context, IConfiguration config)
+        public LinesController(CnctnsContext context, IConfiguration config)
         {
             _context = context;
             Config = config;
         }
 
-        // GET: api/Drivers
+        // GET: api/Lines
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
+        public async Task<ActionResult<IEnumerable<Line>>> GetLines()
         {
             try
             {
-                _context.Drivers.Any();
+                _context.Lines.Any();
             }
             catch (PostgresException e)
             {
                 if (e.SqlState.Equals("42P01"))
-                    CreateTable();
-                else
+                  //CreateTable();
+              //else
                     throw;
             }
 
-            return await _context.Set<Driver>().OrderBy(driver => driver.Id).ToListAsync();
+            return await _context.Set<Line>().OrderBy(line => line.Id).ToListAsync();
         }
 
-        // GET: api/Drivers/5
+        // GET: api/Lines/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Driver>> GetDriver(long? id)
+        public async Task<ActionResult<Line>> GetLine(int? id)
         {
-            Driver driver;
+            Line line;
 
             try
             {
-                driver = await _context.Drivers.FindAsync(id);
+                line = await _context.Lines.FindAsync(id);
             }
             catch (PostgresException e)
             {
@@ -60,21 +60,21 @@ namespace Resources.Controllers
                     throw;
             }
 
-            if (driver == null)
+            if (line == null)
             {
                 return NotFound();
             }
 
-            return driver;
+            return line;
         }
 
-        // PUT: api/Drivers/5
+        // PUT: api/Lines/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDriver(long? id, Driver driver)
+        public async Task<IActionResult> PutLine(int? id, Line line)
         {
             try
             {
-                driver = await _context.Drivers.FindAsync(id);
+                line = await _context.Lines.FindAsync(id);
             }
             catch (PostgresException e)
             {
@@ -84,16 +84,16 @@ namespace Resources.Controllers
                     throw;
             }
 
-            if (DriverExists(id))
+            if (LineExists(id))
             {
-                driver.Id = id;
-                foreach (PropertyInfo pi in typeof(Bus).GetProperties())
+                line.Id = id;
+                foreach (PropertyInfo pi in typeof(Line).GetProperties())
                 {
-                    if (pi.GetValue(driver) != null || driver.HasIntValue(pi.Name))
+                    if (pi.GetValue(line) != null || line.HasIntValue(pi.Name))
                     {
                         if (!pi.Name.Equals("Id"))
                         {
-                            _context.Entry(driver).Property(pi.Name).IsModified = true;
+                            _context.Entry(line).Property(pi.Name).IsModified = true;
                         }
                     }
                 }
@@ -112,40 +112,40 @@ namespace Resources.Controllers
                 throw;
             }
 
-            return Ok(driver);
+            return Ok(line);
         }
 
-        // POST: api/Drivers
+        // POST: api/Lines
         [HttpPost]
-        public async Task<ActionResult<Driver>> PostDriver(Driver driver)
+        public async Task<ActionResult<Line>> PostLine(Line line)
         {
             try
             {
-                _context.Drivers.Any();
+                _context.Lines.Any();
             }
             catch (PostgresException e)
             {
                 if (e.SqlState.Equals("42P01"))
-                    CreateTable();
-                else
+                  //CreateTable();
+              //else
                     throw;
             }
 
-            _context.Drivers.Add(driver);
+            _context.Lines.Add(line);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
+            return CreatedAtAction("GetLine", new { id = line.Id }, line);
         }
 
-        // DELETE: api/Drivers/5
+        // DELETE: api/Lines/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Driver>> DeleteDriver(long? id)
+        public async Task<ActionResult<Line>> DeleteLine(int? id)
         {
-            Driver driver;
+            Line line;
 
             try
             {
-                driver = await _context.Drivers.FindAsync(id);
+                line = await _context.Lines.FindAsync(id);
             }
             catch (PostgresException e)
             {
@@ -155,37 +155,36 @@ namespace Resources.Controllers
                     throw;
             }
 
-            if (driver == null)
+            if (line == null)
             {
                 return NotFound();
             }
-
-            _context.Drivers.Remove(driver);
+            _context.Lines.Remove(line);
             await _context.SaveChangesAsync();
 
-            return driver;
+            return line;
         }
 
-        private bool DriverExists(long? id)
+        private bool LineExists(int? id)
         {
-            return _context.Drivers.Any(e => e.Id == id);
+            return _context.Lines.Any(e => e.Id == id);
         }
 
         private void CreateTable()
         {
+            /*
             NpgsqlConnection conn = new NpgsqlConnection(Config.GetConnectionString("MyWebApiConection"));
-            string query = @"CREATE TABLE ""Drivers"" (
-                                ""Id"" bigint PRIMARY KEY NOT NULL,
-	                            ""FirstName"" text NOT NULL,
-	                            ""LastName"" text NOT NULL,
-	                            ""Birthday"" text NOT NULL,
-	                            ""Phone"" bigint NOT NULL,
-	                            ""Email"" text,
-	                            ""StreetName"" text NOT NULL,
-	                            ""BuildingNumber"" int NOT NULL,
-	                            ""ApartmentNumber"" int,
-	                            ""City"" text NOT NULL,
-                                ""ZipCode"" text NOT NULL
+            string query = @"CREATE TABLE ""Buses"" (
+                                ""Id"" int PRIMARY KEY NOT NULL,
+	                            ""Brand"" text NOT NULL,
+	                            ""Model"" text NOT NULL,
+	                            ""Axes"" int NOT NULL,
+	                            ""VRN"" text NOT NULL,
+	                            ""ProdYear"" int NOT NULL,
+	                            ""PrchYear"" int NOT NULL,
+	                            ""PlcsAmnt"" int NOT NULL,
+	                            ""CpctClss"" text NOT NULL,
+	                            ""EN"" text NOT NULL
                             );";
             NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
 
@@ -199,6 +198,7 @@ namespace Resources.Controllers
             {
                 throw;
             }
+            */
         }
     }
 }

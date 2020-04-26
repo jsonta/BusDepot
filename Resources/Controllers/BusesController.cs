@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
-using BusDepot.Models;
+using Resources.Models;
 
-namespace BusDepot.Controllers
+namespace Resources.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

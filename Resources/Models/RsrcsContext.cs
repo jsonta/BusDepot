@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace BusDepot.Models
+namespace Resources.Models
 {
     public class RsrcsContext : DbContext
     {
