@@ -11,60 +11,60 @@ namespace Connections.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LinesController : ControllerBase
+    public class TerminusController : ControllerBase
     {
         private readonly CnctnsContext _context;
-        public LinesController(CnctnsContext context)
+        public TerminusController(CnctnsContext context)
         {
             _context = context;
         }
 
-        // GET: api/Lines
+        // GET: api/Terminuss
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Line>>> GetLines()
+        public async Task<ActionResult<IEnumerable<Terminus>>> GetTerminuss()
         {
             try
             {
-                _context.lines.Any();
+                _context.terminus.Any();
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            return await _context.Set<Line>().OrderBy(line => line.id).ToListAsync();
+            return await _context.Set<Terminus>().OrderBy(terminus => terminus.id).ToListAsync();
         }
 
-        // GET: api/Lines/5
+        // GET: api/Terminuss/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Line>> GetLine(int? id)
+        public async Task<ActionResult<Terminus>> GetTerminus(int? id)
         {
-            Line line;
+            Terminus terminus;
 
             try
             {
-                line = await _context.lines.FindAsync(id);
+                terminus = await _context.terminus.FindAsync(id);
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            if (line == null)
+            if (terminus == null)
                 return NotFound();
 
-            return line;
+            return terminus;
         }
 
-        // PUT: api/Lines/5
+        // PUT: api/Terminuss/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLine(int? id, Line update)
+        public async Task<IActionResult> PutTerminus(int? id, Terminus update)
         {
-            Line current;
+            Terminus current;
 
             try
             {
-                current = await _context.lines.FindAsync(id);
+                current = await _context.terminus.FindAsync(id);
                 _context.Entry(current).State = EntityState.Detached;
             }
             catch (PostgresException)
@@ -74,7 +74,7 @@ namespace Connections.Controllers
 
             if (current != null)
             {
-                foreach (PropertyInfo pi in typeof(Line).GetProperties())
+                foreach (PropertyInfo pi in typeof(Terminus).GetProperties())
                 {
                     if (pi.GetValue(update) != pi.GetValue(current))
                     {
@@ -100,47 +100,47 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Lines
+        // POST: api/Terminuss
         [HttpPost]
-        public async Task<ActionResult<Line>> PostLine(Line line)
+        public async Task<ActionResult<Terminus>> PostTerminus(Terminus terminus)
         {
             try
             {
-                _context.lines.Any();
+                _context.terminus.Any();
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            _context.lines.Add(line);
+            _context.terminus.Add(terminus);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLine", new { line.id }, line);
+            return CreatedAtAction("GetTerminus", new { terminus.id }, terminus);
         }
 
-        // DELETE: api/Lines/5
+        // DELETE: api/Terminuss/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Line>> DeleteLine(int? id)
+        public async Task<ActionResult<Terminus>> DeleteTerminus(int? id)
         {
-            Line line;
+            Terminus terminus;
 
             try
             {
-                line = await _context.lines.FindAsync(id);
+                terminus = await _context.terminus.FindAsync(id);
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            if (line == null)
+            if (terminus == null)
                 return NotFound();
 
-            _context.lines.Remove(line);
+            _context.terminus.Remove(terminus);
             await _context.SaveChangesAsync();
 
-            return line;
+            return terminus;
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Connections.Models;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Reflection;
 
@@ -15,12 +14,9 @@ namespace Connections.Controllers
     public class RelationsController : ControllerBase
     {
         private readonly CnctnsContext _context;
-        public IConfiguration Config { get; }
-
-        public RelationsController(CnctnsContext context, IConfiguration config)
+        public RelationsController(CnctnsContext context)
         {
             _context = context;
-            Config = config;
         }
 
         // GET: api/Relations
@@ -29,79 +25,68 @@ namespace Connections.Controllers
         {
             try
             {
-                _context.Relations.Any();
+                _context.relations.Any();
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                  //CreateTable();
-              //else
-                    throw;
+                throw;
             }
 
-            return await _context.Set<Relation>().OrderBy(relation => relation.Line).ToListAsync();
+            return await _context.Set<Relation>().OrderBy(relation => relation.id).ToListAsync();
         }
 
         // GET: api/Relations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Relation>> GetRelation(int? id)
+        public async Task<ActionResult<Relation>> GetRelation(string id)
         {
             Relation relation;
 
             try
             {
-                relation = await _context.Relations.FindAsync(id);
+                relation = await _context.relations.FindAsync(id);
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
             if (relation == null)
-            {
                 return NotFound();
-            }
 
             return relation;
         }
 
         // PUT: api/Relations/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRelation(int? id, Relation relation)
+        public async Task<IActionResult> PutRelation(string id, Relation update)
         {
+            Relation current;
+
             try
             {
-                relation = await _context.Relations.FindAsync(id);
+                current = await _context.relations.FindAsync(id);
+                _context.Entry(current).State = EntityState.Detached;
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
-            if (RelationExists(id))
+            if (current != null)
             {
-                relation.Id = id;
                 foreach (PropertyInfo pi in typeof(Relation).GetProperties())
                 {
-                    if (pi.GetValue(relation) != null || relation.HasIntValue(pi.Name))
+                    if (pi.GetValue(update) != pi.GetValue(current))
                     {
-                        if (!pi.Name.Equals("Id"))
-                        {
-                            _context.Entry(relation).Property(pi.Name).IsModified = true;
-                        }
+                        if (!pi.Name.Equals("id"))
+                            _context.Entry(update).Property(pi.Name).IsModified = true;
+                        else
+                            update.id = id;
                     }
                 }
             }
             else
-            {
                 return NotFound();
-            }
 
             try
             {
@@ -112,7 +97,7 @@ namespace Connections.Controllers
                 throw;
             }
 
-            return Ok(relation);
+            return Ok(update);
         }
 
         // POST: api/Relations
@@ -121,84 +106,41 @@ namespace Connections.Controllers
         {
             try
             {
-                _context.Relations.Any();
-            }
-            catch (PostgresException e)
-            {
-                if (e.SqlState.Equals("42P01"))
-                  //CreateTable();
-              //else
-                    throw;
-            }
-
-            _context.Relations.Add(relation);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBus", new { id = relation.Id }, relation);
-        }
-
-        // DELETE: api/Relations/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Relation>> DeleteRelation(int? id)
-        {
-            Relation relation;
-
-            try
-            {
-                relation = await _context.Relations.FindAsync(id);
-            }
-            catch (PostgresException e)
-            {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
-            }
-
-            if (relation == null)
-            {
-                return NotFound();
-            }
-            _context.Relations.Remove(relation);
-            await _context.SaveChangesAsync();
-
-            return relation;
-        }
-
-        private bool RelationExists(int? id)
-        {
-            return _context.Relations.Any(e => e.Id == id);
-        }
-
-        private void CreateTable()
-        {
-            /*
-            NpgsqlConnection conn = new NpgsqlConnection(Config.GetConnectionString("MyWebApiConection"));
-            string query = @"CREATE TABLE ""Buses"" (
-                                ""Id"" int PRIMARY KEY NOT NULL,
-	                            ""Brand"" text NOT NULL,
-	                            ""Model"" text NOT NULL,
-	                            ""Axes"" int NOT NULL,
-	                            ""VRN"" text NOT NULL,
-	                            ""ProdYear"" int NOT NULL,
-	                            ""PrchYear"" int NOT NULL,
-	                            ""PlcsAmnt"" int NOT NULL,
-	                            ""CpctClss"" text NOT NULL,
-	                            ""EN"" text NOT NULL
-                            );";
-            NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
-            try
-            {
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                _context.relations.Any();
             }
             catch (PostgresException)
             {
                 throw;
             }
-            */
+
+            _context.relations.Add(relation);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetRelation", new { relation.id }, relation);
+        }
+
+        // DELETE: api/Relations/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Relation>> DeleteRelation(string id)
+        {
+            Relation relation;
+
+            try
+            {
+                relation = await _context.relations.FindAsync(id);
+            }
+            catch (PostgresException)
+            {
+                throw;
+            }
+
+            if (relation == null)
+                return NotFound();
+
+            _context.relations.Remove(relation);
+            await _context.SaveChangesAsync();
+
+            return relation;
         }
     }
 }

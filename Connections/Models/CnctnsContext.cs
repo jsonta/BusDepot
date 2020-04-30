@@ -8,10 +8,10 @@ namespace Connections.Models
         {
         }
 
-        public DbSet<Brigade> Brigades { get; set; }
-        public DbSet<Line> Lines { get; set; }
-        public DbSet<Relation> Relations { get; set; }
-        public DbSet<Remark> Remarks { get; set; }
-        public DbSet<Terminus> Terminuss { get; set; }
+        public DbSet<Brigade> brigades { get; set; }
+        public DbSet<Line> lines { get; set; }
+        public DbSet<Relation> relations { get; set; }
+        public DbSet<Remark> remarks { get; set; }
+        public DbSet<Terminus> terminus { get; set; }
     }
 }

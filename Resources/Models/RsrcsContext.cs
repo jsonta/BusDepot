@@ -8,7 +8,7 @@ namespace Resources.Models
         {
         }
 
-        public DbSet<Bus> Buses { get; set; }
-        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Bus> buses { get; set; }
+        public DbSet<Driver> drivers { get; set; }
     }
 }

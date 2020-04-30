@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Connections.Models;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Reflection;
 
@@ -15,12 +14,9 @@ namespace Connections.Controllers
     public class BrigadesController : ControllerBase
     {
         private readonly CnctnsContext _context;
-        public IConfiguration Config { get; }
-
-        public BrigadesController(CnctnsContext context, IConfiguration config)
+        public BrigadesController(CnctnsContext context)
         {
             _context = context;
-            Config = config;
         }
 
         // GET: api/Brigades
@@ -29,79 +25,68 @@ namespace Connections.Controllers
         {
             try
             {
-                _context.Brigades.Any();
+                _context.brigades.Any();
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                  //CreateTable();
-              //else
-                    throw;
+                throw;
             }
 
-            return await _context.Set<Brigade>().OrderBy(brigade => brigade.Line).ToListAsync();
+            return await _context.Set<Brigade>().OrderBy(brigade => brigade.id).ToListAsync();
         }
 
         // GET: api/Brigades/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brigade>> GetBrigade(int? id)
+        public async Task<ActionResult<Brigade>> GetBrigade(string id)
         {
             Brigade brigade;
 
             try
             {
-                brigade = await _context.Brigades.FindAsync(id);
+                brigade = await _context.brigades.FindAsync(id);
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
             if (brigade == null)
-            {
                 return NotFound();
-            }
 
             return brigade;
         }
 
         // PUT: api/Brigades/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrigade(int? id, Brigade brigade)
+        public async Task<IActionResult> PutBrigade(string id, Brigade update)
         {
+            Brigade current;
+
             try
             {
-                brigade = await _context.Brigades.FindAsync(id);
+                current = await _context.brigades.FindAsync(id);
+                _context.Entry(current).State = EntityState.Detached;
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
-            if (BrigadeExists(id))
+            if (current != null)
             {
-                brigade.Id = id;
                 foreach (PropertyInfo pi in typeof(Brigade).GetProperties())
                 {
-                    if (pi.GetValue(brigade) != null || brigade.HasIntValue(pi.Name))
+                    if (pi.GetValue(update) != pi.GetValue(current))
                     {
-                        if (!pi.Name.Equals("Id"))
-                        {
-                            _context.Entry(brigade).Property(pi.Name).IsModified = true;
-                        }
+                        if (!pi.Name.Equals("id"))
+                            _context.Entry(update).Property(pi.Name).IsModified = true;
+                        else
+                            update.id = id;
                     }
                 }
             }
             else
-            {
                 return NotFound();
-            }
 
             try
             {
@@ -112,7 +97,7 @@ namespace Connections.Controllers
                 throw;
             }
 
-            return Ok(brigade);
+            return Ok(update);
         }
 
         // POST: api/Brigades
@@ -121,84 +106,41 @@ namespace Connections.Controllers
         {
             try
             {
-                _context.Brigades.Any();
-            }
-            catch (PostgresException e)
-            {
-                if (e.SqlState.Equals("42P01"))
-                  //CreateTable();
-              //else
-                    throw;
-            }
-
-            _context.Brigades.Add(brigade);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBrigade", new { id = brigade.Id }, brigade);
-        }
-
-        // DELETE: api/Brigades/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Brigade>> DeleteBrigade(int? id)
-        {
-            Brigade brigade;
-
-            try
-            {
-                brigade = await _context.Brigades.FindAsync(id);
-            }
-            catch (PostgresException e)
-            {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
-            }
-
-            if (brigade == null)
-            {
-                return NotFound();
-            }
-            _context.Brigades.Remove(brigade);
-            await _context.SaveChangesAsync();
-
-            return brigade;
-        }
-
-        private bool BrigadeExists(int? id)
-        {
-            return _context.Brigades.Any(e => e.Id == id);
-        }
-
-        private void CreateTable()
-        {
-            /*
-            NpgsqlConnection conn = new NpgsqlConnection(Config.GetConnectionString("MyWebApiConection"));
-            string query = @"CREATE TABLE ""Buses"" (
-                                ""Id"" int PRIMARY KEY NOT NULL,
-	                            ""Brand"" text NOT NULL,
-	                            ""Model"" text NOT NULL,
-	                            ""Axes"" int NOT NULL,
-	                            ""VRN"" text NOT NULL,
-	                            ""ProdYear"" int NOT NULL,
-	                            ""PrchYear"" int NOT NULL,
-	                            ""PlcsAmnt"" int NOT NULL,
-	                            ""CpctClss"" text NOT NULL,
-	                            ""EN"" text NOT NULL
-                            );";
-            NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
-            try
-            {
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                _context.brigades.Any();
             }
             catch (PostgresException)
             {
                 throw;
             }
-            */
+
+            _context.brigades.Add(brigade);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetBrigade", new { brigade.id }, brigade);
+        }
+
+        // DELETE: api/Brigades/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Brigade>> DeleteBrigade(string id)
+        {
+            Brigade brigade;
+
+            try
+            {
+                brigade = await _context.brigades.FindAsync(id);
+            }
+            catch (PostgresException)
+            {
+                throw;
+            }
+
+            if (brigade == null)
+                return NotFound();
+
+            _context.brigades.Remove(brigade);
+            await _context.SaveChangesAsync();
+
+            return brigade;
         }
     }
 }

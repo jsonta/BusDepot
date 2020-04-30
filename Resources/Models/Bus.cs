@@ -2,35 +2,15 @@
 {
     public class Bus
     {
-        public int? Id { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public int? Axes { get; set; }
-        public string VRN { get; set; }
-        public int? ProdYear { get; set; }
-        public int? PrchYear { get; set; }
-        public int? PlcsAmnt { get; set; }
-        public string CpctClss { get; set; }
-        public string EN { get; set; }
-
-        public bool HasIntValue(string varName)
-        {
-            switch (varName)
-            {
-                case "Id":
-                    return Id.HasValue;
-                case "Axes":
-                    return Axes.HasValue;
-                case "ProdYear":
-                    return ProdYear.HasValue;
-                case "PrchYear":
-                    return PrchYear.HasValue;
-                case "PlcsAmnt":
-                    return PlcsAmnt.HasValue;
-                default:
-                    break;
-            }
-            return false;
-        }
+        public int? id { get; set; }
+        public string brand { get; set; }
+        public string model { get; set; }
+        public int? axes { get; set; }
+        public string vrn { get; set; }
+        public int? yr_prod { get; set; }
+        public int? yr_prch { get; set; }
+        public int? amnt_plcs { get; set; }
+        public string cpct_class { get; set; }
+        public string emsn_norm { get; set; }
     }
 }

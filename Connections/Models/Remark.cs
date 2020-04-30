@@ -2,7 +2,7 @@
 {
     public class Remark
     {
-        public char Id { get; set; }
-        public string Name { get; set; }
+        public char id { get; set; }
+        public string name { get; set; }
     }
 }

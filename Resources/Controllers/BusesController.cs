@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Resources.Models;
 
@@ -15,12 +14,9 @@ namespace Resources.Controllers
     public class BusesController : ControllerBase
     {
         private readonly RsrcsContext _context;
-        public IConfiguration Config { get; }
-
-        public BusesController(RsrcsContext context, IConfiguration config)
+        public BusesController(RsrcsContext context)
         {
             _context = context;
-            Config = config;
         }
 
         // GET: api/Buses
@@ -29,17 +25,14 @@ namespace Resources.Controllers
         {
             try
             {
-                _context.Buses.Any();
+                _context.buses.Any();
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    CreateTable();
-                else
-                    throw;
+                throw;
             }
 
-            return await _context.Set<Bus>().OrderBy(bus => bus.Id).ToListAsync();
+            return await _context.Set<Bus>().OrderBy(bus => bus.id).ToListAsync();
         }
 
         // GET: api/Buses/5
@@ -50,58 +43,50 @@ namespace Resources.Controllers
 
             try
             {
-                bus = await _context.Buses.FindAsync(id);
+                bus = await _context.buses.FindAsync(id);
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
             if (bus == null)
-            {
                 return NotFound();
-            }
 
             return bus;
         }
 
         // PUT: api/Buses/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBus(int? id, Bus bus)
+        public async Task<IActionResult> PutBus(int? id, Bus update)
         {
+            Bus current;
+
             try
             {
-                bus = await _context.Buses.FindAsync(id);
+                current = await _context.buses.FindAsync(id);
+                _context.Entry(current).State = EntityState.Detached;
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
-            if (BusExists(id))
+            if (current != null)
             {
-                bus.Id = id;
                 foreach (PropertyInfo pi in typeof(Bus).GetProperties())
                 {
-                    if (pi.GetValue(bus) != null || bus.HasIntValue(pi.Name))
+                    if (pi.GetValue(update) != pi.GetValue(current))
                     {
-                        if (!pi.Name.Equals("Id"))
-                        {
-                            _context.Entry(bus).Property(pi.Name).IsModified = true;
-                        }
+                        if (!pi.Name.Equals("id"))
+                            _context.Entry(update).Property(pi.Name).IsModified = true;
+                        else
+                            update.id = id;
                     }
                 }
             }
             else
-            {
                 return NotFound();
-            }
 
             try
             {
@@ -112,7 +97,7 @@ namespace Resources.Controllers
                 throw;
             }
 
-            return Ok(bus);
+            return Ok(update);
         }
 
         // POST: api/Buses
@@ -121,20 +106,17 @@ namespace Resources.Controllers
         {
             try
             {
-                _context.Buses.Any();
+                _context.buses.Any();
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    CreateTable();
-                else
-                    throw;
+                throw;
             }
 
-            _context.Buses.Add(bus);
+            _context.buses.Add(bus);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBus", new { id = bus.Id }, bus);
+            return CreatedAtAction("GetBus", new { bus.id }, bus);
         }
 
         // DELETE: api/Buses/5
@@ -145,58 +127,20 @@ namespace Resources.Controllers
 
             try
             {
-                bus = await _context.Buses.FindAsync(id);
-            }
-            catch (PostgresException e)
-            {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
-            }
-
-            if (bus == null)
-            {
-                return NotFound();
-            }
-            _context.Buses.Remove(bus);
-            await _context.SaveChangesAsync();
-
-            return bus;
-        }
-
-        private bool BusExists(int? id)
-        {
-            return _context.Buses.Any(e => e.Id == id);
-        }
-
-        private void CreateTable()
-        {
-            NpgsqlConnection conn = new NpgsqlConnection(Config.GetConnectionString("MyWebApiConection"));
-            string query = @"CREATE TABLE ""Buses"" (
-                                ""Id"" int PRIMARY KEY NOT NULL,
-	                            ""Brand"" text NOT NULL,
-	                            ""Model"" text NOT NULL,
-	                            ""Axes"" int NOT NULL,
-	                            ""VRN"" text NOT NULL,
-	                            ""ProdYear"" int NOT NULL,
-	                            ""PrchYear"" int NOT NULL,
-	                            ""PlcsAmnt"" int NOT NULL,
-	                            ""CpctClss"" text NOT NULL,
-	                            ""EN"" text NOT NULL
-                            );";
-            NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
-            try
-            {
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                bus = await _context.buses.FindAsync(id);
             }
             catch (PostgresException)
             {
                 throw;
             }
+
+            if (bus == null)
+                return NotFound();
+
+            _context.buses.Remove(bus);
+            await _context.SaveChangesAsync();
+
+            return bus;
         }
     }
 }

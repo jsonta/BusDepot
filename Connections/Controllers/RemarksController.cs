@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Connections.Models;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Reflection;
 
@@ -15,12 +14,9 @@ namespace Connections.Controllers
     public class RemarksController : ControllerBase
     {
         private readonly CnctnsContext _context;
-        public IConfiguration Config { get; }
-
-        public RemarksController(CnctnsContext context, IConfiguration config)
+        public RemarksController(CnctnsContext context)
         {
             _context = context;
-            Config = config;
         }
 
         // GET: api/Remarks
@@ -29,17 +25,14 @@ namespace Connections.Controllers
         {
             try
             {
-                _context.Remarks.Any();
+                _context.remarks.Any();
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                  //CreateTable();
-              //else
-                    throw;
+                throw;
             }
 
-            return await _context.Set<Remark>().OrderBy(remark => remark.Id).ToListAsync();
+            return await _context.Set<Remark>().OrderBy(remark => remark.id).ToListAsync();
         }
 
         // GET: api/Remarks/5
@@ -50,58 +43,50 @@ namespace Connections.Controllers
 
             try
             {
-                remark = await _context.Remarks.FindAsync(id);
+                remark = await _context.remarks.FindAsync(id);
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
             if (remark == null)
-            {
                 return NotFound();
-            }
 
             return remark;
         }
 
         // PUT: api/Remarks/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRemark(char id, Remark remark)
+        public async Task<IActionResult> PutRemark(char id, Remark update)
         {
+            Remark current;
+
             try
             {
-                remark = await _context.Remarks.FindAsync(id);
+                current = await _context.remarks.FindAsync(id);
+                _context.Entry(current).State = EntityState.Detached;
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
+                throw;
             }
 
-            if (RemarkExists(id))
+            if (current != null)
             {
-                remark.Id = id;
                 foreach (PropertyInfo pi in typeof(Remark).GetProperties())
                 {
-                    if (pi.GetValue(remark) != null)
+                    if (pi.GetValue(update) != pi.GetValue(current))
                     {
-                        if (!pi.Name.Equals("Id"))
-                        {
-                            _context.Entry(remark).Property(pi.Name).IsModified = true;
-                        }
+                        if (!pi.Name.Equals("id"))
+                            _context.Entry(update).Property(pi.Name).IsModified = true;
+                        else
+                            update.id = id;
                     }
                 }
             }
             else
-            {
                 return NotFound();
-            }
 
             try
             {
@@ -112,7 +97,7 @@ namespace Connections.Controllers
                 throw;
             }
 
-            return Ok(remark);
+            return Ok(update);
         }
 
         // POST: api/Remarks
@@ -121,20 +106,17 @@ namespace Connections.Controllers
         {
             try
             {
-                _context.Remarks.Any();
+                _context.remarks.Any();
             }
-            catch (PostgresException e)
+            catch (PostgresException)
             {
-                if (e.SqlState.Equals("42P01"))
-                  //CreateTable();
-              //else
-                    throw;
+                throw;
             }
 
-            _context.Remarks.Add(remark);
+            _context.remarks.Add(remark);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBus", new { id = remark.Id }, remark);
+            return CreatedAtAction("GetRemark", new { remark.id }, remark);
         }
 
         // DELETE: api/Remarks/5
@@ -145,60 +127,20 @@ namespace Connections.Controllers
 
             try
             {
-                remark = await _context.Remarks.FindAsync(id);
-            }
-            catch (PostgresException e)
-            {
-                if (e.SqlState.Equals("42P01"))
-                    return NotFound();
-                else
-                    throw;
-            }
-
-            if (remark == null)
-            {
-                return NotFound();
-            }
-            _context.Remarks.Remove(remark);
-            await _context.SaveChangesAsync();
-
-            return remark;
-        }
-
-        private bool RemarkExists(char id)
-        {
-            return _context.Remarks.Any(e => e.Id == id);
-        }
-
-        private void CreateTable()
-        {
-            /*
-            NpgsqlConnection conn = new NpgsqlConnection(Config.GetConnectionString("MyWebApiConection"));
-            string query = @"CREATE TABLE ""Buses"" (
-                                ""Id"" int PRIMARY KEY NOT NULL,
-	                            ""Brand"" text NOT NULL,
-	                            ""Model"" text NOT NULL,
-	                            ""Axes"" int NOT NULL,
-	                            ""VRN"" text NOT NULL,
-	                            ""ProdYear"" int NOT NULL,
-	                            ""PrchYear"" int NOT NULL,
-	                            ""PlcsAmnt"" int NOT NULL,
-	                            ""CpctClss"" text NOT NULL,
-	                            ""EN"" text NOT NULL
-                            );";
-            NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
-            try
-            {
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                remark = await _context.remarks.FindAsync(id);
             }
             catch (PostgresException)
             {
                 throw;
             }
-            */
+
+            if (remark == null)
+                return NotFound();
+
+            _context.remarks.Remove(remark);
+            await _context.SaveChangesAsync();
+
+            return remark;
         }
     }
 }
