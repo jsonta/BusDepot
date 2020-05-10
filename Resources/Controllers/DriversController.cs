@@ -76,13 +76,10 @@ namespace Resources.Controllers
             {
                 foreach (PropertyInfo pi in typeof(Bus).GetProperties())
                 {
-                    if (pi.GetValue(update) != pi.GetValue(current))
-                    {
-                        if (!pi.Name.Equals("id"))
-                            _context.Entry(update).Property(pi.Name).IsModified = true;
-                        else
-                            update.id = id;
-                    }
+                    if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
+                        _context.Entry(update).Property(pi.Name).IsModified = true;
+                    else if (pi.Name.Equals("id"))
+                        update.id = id;
                 }
             }
             else

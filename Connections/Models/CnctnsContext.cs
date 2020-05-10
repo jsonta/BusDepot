@@ -9,6 +9,7 @@ namespace Connections.Models
         }
 
         public DbSet<Brigade> brigades { get; set; }
+        public DbSet<Timetable> brigades_timetable { get; set; }
         public DbSet<Line> lines { get; set; }
         public DbSet<Relation> relations { get; set; }
         public DbSet<Remark> remarks { get; set; }

@@ -11,60 +11,62 @@ namespace Connections.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TerminusController : ControllerBase
+    public class TimetablesController : ControllerBase
     {
         private readonly CnctnsContext _context;
-        public TerminusController(CnctnsContext context)
+        public TimetablesController(CnctnsContext context)
         {
             _context = context;
         }
 
-        // GET: api/Terminuss
+        // GET: api/Timetables
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Terminus>>> GetTerminuss()
+        public async Task<ActionResult<IEnumerable<Timetable>>> Getbrigades_timetable()
         {
             try
             {
-                _context.terminus.Any();
+                _context.brigades_timetable.Any();
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            return await _context.Set<Terminus>().OrderBy(terminus => terminus.id).ToListAsync();
+            return await _context.Set<Timetable>().OrderBy(brigade => brigade.id).ToListAsync();
         }
 
-        // GET: api/Terminuss/5
+        // GET: api/Timetables/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Terminus>> GetTerminus(int? id)
+        public async Task<ActionResult<Timetable>> GetTimetable(string id)
         {
-            Terminus terminus;
+            Timetable timetable;
 
             try
             {
-                terminus = await _context.terminus.FindAsync(id);
+                timetable = await _context.brigades_timetable.FindAsync(id);
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            if (terminus == null)
+            if (timetable == null)
                 return NotFound();
 
-            return terminus;
+            return timetable;
         }
 
-        // PUT: api/Terminuss/5
+        // PUT: api/Timetables/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTerminus(int? id, Terminus update)
+        public async Task<IActionResult> PutTimetable(string id, Timetable update)
         {
-            Terminus current;
+            Timetable current;
 
             try
             {
-                current = await _context.terminus.FindAsync(id);
+                current = await _context.brigades_timetable.FindAsync(id);
                 _context.Entry(current).State = EntityState.Detached;
             }
             catch (PostgresException)
@@ -74,7 +76,7 @@ namespace Connections.Controllers
 
             if (current != null)
             {
-                foreach (PropertyInfo pi in typeof(Terminus).GetProperties())
+                foreach (PropertyInfo pi in typeof(Timetable).GetProperties())
                 {
                     if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
@@ -97,47 +99,49 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Terminuss
+        // POST: api/Timetables
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Terminus>> PostTerminus(Terminus terminus)
+        public async Task<ActionResult<Timetable>> PostTimetable(Timetable timetable)
         {
             try
             {
-                _context.terminus.Any();
+                _context.brigades_timetable.Any();
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            _context.terminus.Add(terminus);
+            _context.brigades_timetable.Add(timetable);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTerminus", new { terminus.id }, terminus);
+            return CreatedAtAction("GetTimetable", new { timetable.id }, timetable);
         }
 
-        // DELETE: api/Terminuss/5
+        // DELETE: api/Timetables/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Terminus>> DeleteTerminus(int? id)
+        public async Task<ActionResult<Timetable>> DeleteTimetable(string id)
         {
-            Terminus terminus;
+            Timetable timetable;
 
             try
             {
-                terminus = await _context.terminus.FindAsync(id);
+                timetable = await _context.brigades_timetable.FindAsync(id);
             }
             catch (PostgresException)
             {
                 throw;
             }
 
-            if (terminus == null)
+            if (timetable == null)
                 return NotFound();
 
-            _context.terminus.Remove(terminus);
+            _context.brigades_timetable.Remove(timetable);
             await _context.SaveChangesAsync();
 
-            return terminus;
+            return timetable;
         }
     }
 }

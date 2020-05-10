@@ -12,5 +12,6 @@
         public int? amnt_plcs { get; set; }
         public string cpct_class { get; set; }
         public string emsn_norm { get; set; }
+        public bool in_service { get; set; }
     }
 }

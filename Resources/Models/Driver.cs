@@ -13,5 +13,6 @@
         public int? addr_apmtnmbr { get; set; }
         public string city { get; set; }
         public string zip { get; set; }
+        public bool in_service { get; set; }
     }
 }
