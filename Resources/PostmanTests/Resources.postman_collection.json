@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "9d00f96f-4973-4ccd-8d2e-bc1f9ec2d034",
+		"name": "Resources",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getBusesList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5000/api/Buses",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Buses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBusById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5000/api/Buses/2804",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Buses",
+						"2804"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postBus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": 2803,\n\t\"Brand\": \"Solaris\",\n\t\"Model\": \"Urbino 12\",\n\t\"Axes\": 1,\n\t\"VRN\": \"ZS 4997L\",\n\t\"yr_prod\": 2008,\n\t\"yr_prch\": 2008,\n\t\"amnt_plcs\": 98,\n\t\"cpct_class\": \"Maxi\",\n\t\"emsn_norm\": \"Euro4\",\n\t\"in_service\": false\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/Buses",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Buses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateBus",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"VRN\": \"ZS 66666\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/Buses/2803",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Buses",
+						"2803"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteBus",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5000/api/Buses/2803",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Buses",
+						"2803"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getDriversList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5000/api/Drivers",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getDriverById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5000/api/Drivers/96111276069",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Drivers",
+						"96111276069"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postDriver",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": 96111276069,\n\t\"FName\": \"Lesława\",\n\t\"LName\": \"Wojciechowska\",\n\t\"BDay_date\": \"1996-11-12\",\n\t\"Phone\": 666125142,\n\t\"Email\": \"LeslawaWojciechowska@rhyta.com\",\n\t\"Addr_StrtName\": \"Plac Wojska Polskiego\",\n\t\"Addr_BldgNmbr\": 28,\n\t\"City\": \"Warszawa\",\n\t\"Zip\": \"05-075\",\n\t\"in_service\": false\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/Drivers",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateDriver",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fname\": \"Marianna\",\n\t\"lname\": \"Marianowa\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/Drivers/96111276069",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Drivers",
+						"96111276069"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteDriver",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"AddrFlatNmbr\": 0\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/Drivers/96111276069",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Drivers",
+						"96111276069"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dodaj brygadę",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": \"065-01\",\n\t\"Line\": 65,\n\t\"Relation\": \"065-R1\",\n\t\"Dep_time\": \"00.00\",\n\t\"Arr_time\": \"00.00\",\n\t\"Remarks\": \"A\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/brigades",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"brigades"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

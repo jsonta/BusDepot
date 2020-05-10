@@ -74,12 +74,13 @@ namespace Connections.Controllers
 
             if (current != null)
             {
+                update.id = id;
                 foreach (PropertyInfo pi in typeof(Remark).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
+                    if ((pi.GetValue(update) != pi.GetValue(current))
+                        && (pi.GetValue(update) != null)
+                        && (!pi.Name.Equals("id")))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
-                    else if (pi.Name.Equals("id"))
-                        update.id = id;
                 }
             }
             else

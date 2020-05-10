@@ -74,7 +74,7 @@ namespace Resources.Controllers
 
             if (current != null)
             {
-                foreach (PropertyInfo pi in typeof(Bus).GetProperties())
+                foreach (PropertyInfo pi in typeof(Driver).GetProperties())
                 {
                     if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
                         _context.Entry(update).Property(pi.Name).IsModified = true;

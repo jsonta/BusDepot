@@ -37,7 +37,7 @@ namespace Connections.Controllers
 
         // GET: api/Timetables/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Timetable>> GetTimetable(string id)
+        public async Task<ActionResult<Timetable>> GetTimetable(int id)
         {
             Timetable timetable;
 
@@ -60,7 +60,7 @@ namespace Connections.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTimetable(string id, Timetable update)
+        public async Task<IActionResult> PutTimetable(int id, Timetable update)
         {
             Timetable current;
 
@@ -76,12 +76,13 @@ namespace Connections.Controllers
 
             if (current != null)
             {
+                update.id = id;
                 foreach (PropertyInfo pi in typeof(Timetable).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
+                    if ((pi.GetValue(update) != pi.GetValue(current))
+                        && (pi.GetValue(update) != null)
+                        && (!pi.Name.Equals("id")))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
-                    else if (pi.Name.Equals("id"))
-                        update.id = id;
                 }
             }
             else
@@ -122,7 +123,7 @@ namespace Connections.Controllers
 
         // DELETE: api/Timetables/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Timetable>> DeleteTimetable(string id)
+        public async Task<ActionResult<Timetable>> DeleteTimetable(int id)
         {
             Timetable timetable;
 

@@ -1,0 +1,857 @@
+{
+	"info": {
+		"_postman_id": "cf62c0bd-cebf-49e4-9a09-647af17c812d",
+		"name": "Connections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getLinesList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Lines",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Lines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLineById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Lines/65",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Lines",
+						"65"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postLine",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": 401,\n\t\"Name\": \"A\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Lines",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Lines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateLine",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"H\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Lines/401",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Lines",
+						"401"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteLine",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Lines/401",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Lines",
+						"401"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRelationsList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Relations",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Relations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRelationById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Relations/065-R2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Relations",
+						"065-R2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postRelation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": \"065-R3\",\n\t\"Line\": 65,\n\t\"Start\": 2,\n\t\"End\": 2\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Relations/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Relations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateRelation",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Line\": 65,\n\t\"Start\": 2,\n\t\"End\": 2\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Relations/065-R3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Relations",
+						"065-R3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteRelation",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Relations/065-R3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Relations",
+						"065-R3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRemarksList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Remarks",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Remarks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRemarkById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Remarks/-",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Remarks",
+						"-"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postRemark",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": \"z\",\n\t\"Name\": \"Z\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Remarks",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Remarks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateRemark",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Zjazd do zajezdni\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Remarks/z",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Remarks",
+						"z"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteRemark",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Remarks/z",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Remarks",
+						"z"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTerminusList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Terminus",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Terminus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTerminusById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Terminus/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Terminus",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTerminus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Struga Zajezdnia\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Terminus",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Terminus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTerminus",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Struga MZK\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Terminus/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Terminus",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTerminus",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/Terminus/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Terminus",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBrigadesList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/brigades",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"brigades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBrigadeById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/brigades/065-01",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"brigades",
+						"065-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postBrigade",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": \"065-02\",\n\t\"Line\": 65,\n\t\"In_service\": false\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/brigades",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"brigades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateBrigade",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Line\": 401\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/brigades/065-02",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"brigades",
+						"065-02"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteBrigade",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/brigades/065-02",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"brigades",
+						"065-02"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTimetablesList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/timetables",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"timetables"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTimetableById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/timetables/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"timetables",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postTimetable",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Brigade\": \"065-01\",\n\t\"Relation\": \"065-R2\",\n\t\"Dep_time\": \"01.03\",\n\t\"Arr_time\": \"01.04\",\n\t\"Remarks\": \"-\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/timetables",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"timetables"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTimetable",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Dep_time\": \"02.03\",\n\t\"Arr_time\": \"03.04\",\n\t\"Remarks\": \"-\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/timetables/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"timetables",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTimetable",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/timetables/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"timetables",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

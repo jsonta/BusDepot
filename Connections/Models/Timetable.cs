@@ -2,7 +2,8 @@
 {
     public class Timetable
     {
-        public string id { get; set; }
+        public int id { get; set; }
+        public string brigade { get; set; }
         public string relation { get; set; }
         public char remarks { get; set; }
         public string dep_time { get; set; }
