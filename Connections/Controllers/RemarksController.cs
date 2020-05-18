@@ -19,8 +19,14 @@ namespace Connections.Controllers
             _context = context;
         }
 
-        // GET: api/Remarks
+        /// <summary>
+        /// Wypisuje wszystkie uwagi ze szczegółami w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Remark>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Remark>>> GetRemarks()
         {
             try
@@ -35,8 +41,17 @@ namespace Connections.Controllers
             return await _context.Set<Remark>().OrderBy(remark => remark.id).ToListAsync();
         }
 
-        // GET: api/Remarks/5
+        /// <summary>
+        /// Wypisuje uwagę ze szczegółami, określoną przez jej ID.
+        /// </summary>
+        /// <param name="id" example="P">Identyfikator uwagi</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Remark), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Remark>> GetRemark(char id)
         {
             Remark remark;
@@ -51,13 +66,23 @@ namespace Connections.Controllers
             }
 
             if (remark == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return remark;
         }
 
-        // PUT: api/Remarks/5
+        /// <summary>
+        /// Aktualizuje szczegóły uwagi, określonej przez jej ID.
+        /// </summary>
+        /// <param name="id" example="P">Identyfikator uwagi</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Remark), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutRemark(char id, Remark update)
         {
             Remark current;
@@ -84,7 +109,7 @@ namespace Connections.Controllers
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
@@ -98,8 +123,15 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Remarks
+        /// <summary>
+        /// Dodaje nową uwagę do spisu uwag (bazy danych).
+        /// </summary>
+        /// <param name="remark">Parametry uwagi (w formie obiektu JSON). Wszystkie muszą być wypełnione.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Remark), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Remark>> PostRemark(Remark remark)
         {
             try
@@ -117,8 +149,17 @@ namespace Connections.Controllers
             return CreatedAtAction("GetRemark", new { remark.id }, remark);
         }
 
-        // DELETE: api/Remarks/5
+        /// <summary>
+        /// Usuwa uwagę, określoną przez jej ID, ze spisu uwag (bazy danych).
+        /// </summary>
+        /// <param name="id" example="P">Identyfikator uwagi</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Remark), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Remark>> DeleteRemark(char id)
         {
             Remark remark;
@@ -133,7 +174,7 @@ namespace Connections.Controllers
             }
 
             if (remark == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.remarks.Remove(remark);
             await _context.SaveChangesAsync();

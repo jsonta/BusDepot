@@ -19,8 +19,14 @@ namespace Connections.Controllers
             _context = context;
         }
 
-        // GET: api/Terminuss
+        /// <summary>
+        /// Wypisuje wszystkie przystanki ze szczegółami w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Terminus>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Terminus>>> GetTerminuss()
         {
             try
@@ -35,8 +41,17 @@ namespace Connections.Controllers
             return await _context.Set<Terminus>().OrderBy(terminus => terminus.id).ToListAsync();
         }
 
-        // GET: api/Terminuss/5
+        /// <summary>
+        /// Wypisuje przystanek ze szczegółami, określony przez jego ID.
+        /// </summary>
+        /// <param name="id" example="1">Identyfikator przystanku</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Terminus), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Terminus>> GetTerminus(int? id)
         {
             Terminus terminus;
@@ -51,13 +66,23 @@ namespace Connections.Controllers
             }
 
             if (terminus == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return terminus;
         }
 
-        // PUT: api/Terminuss/5
+        /// <summary>
+        /// Aktualizuje szczegóły przystanku, określonego przez jego ID.
+        /// </summary>
+        /// <param name="id" example="1">Identyfikator przystanku</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Terminus), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutTerminus(int? id, Terminus update)
         {
             Terminus current;
@@ -83,7 +108,7 @@ namespace Connections.Controllers
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
@@ -97,8 +122,15 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Terminuss
+        /// <summary>
+        /// Dodaje nowy przystanek do spisu przystanków (bazy danych).
+        /// </summary>
+        /// <param name="terminus">Parametry przystanku (w formie obiektu JSON). Wszystkie muszą być wypełnione.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Terminus), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Terminus>> PostTerminus(Terminus terminus)
         {
             try
@@ -116,8 +148,17 @@ namespace Connections.Controllers
             return CreatedAtAction("GetTerminus", new { terminus.id }, terminus);
         }
 
-        // DELETE: api/Terminuss/5
+        /// <summary>
+        /// Usuwa przystanek, określony przez jego ID, ze spisu przystanków (bazy danych).
+        /// </summary>
+        /// <param name="id" example="1">Identyfikator przystanku</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Terminus), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Terminus>> DeleteTerminus(int? id)
         {
             Terminus terminus;

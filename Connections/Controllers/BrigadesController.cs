@@ -19,8 +19,14 @@ namespace Connections.Controllers
             _context = context;
         }
 
-        // GET: api/Brigades
+        /// <summary>
+        /// Wypisuje wszystkie brygady ze szczegółami w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Brigade>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Brigade>>> GetBrigades()
         {
             try
@@ -35,8 +41,17 @@ namespace Connections.Controllers
             return await _context.Set<Brigade>().OrderBy(brigade => brigade.id).ToListAsync();
         }
 
-        // GET: api/Brigades/5
+        /// <summary>
+        /// Wypisuje brygadę ze szczegółami, określoną przez jej ID.
+        /// </summary>
+        /// <param name="id" example="901-01">Identyfikator brygady</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Brigade), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Brigade>> GetBrigade(string id)
         {
             Brigade brigade;
@@ -51,13 +66,23 @@ namespace Connections.Controllers
             }
 
             if (brigade == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return brigade;
         }
 
-        // PUT: api/Brigades/5
+        /// <summary>
+        /// Aktualizuje szczegóły brygady, określonej przez jej ID.
+        /// </summary>
+        /// <param name="id" example="901-01">Identyfikator brygady</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Brigade), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutBrigade(string id, Brigade update)
         {
             Brigade current;
@@ -83,7 +108,7 @@ namespace Connections.Controllers
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
@@ -97,8 +122,15 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Brigades
+        /// <summary>
+        /// Dodaje nową brygadę do spisu brygad (bazy danych).
+        /// </summary>
+        /// <param name="brigade">Parametry brygady (w formie obiektu JSON). Wszystkie muszą być wypełnione.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Brigade), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Brigade>> PostBrigade(Brigade brigade)
         {
             try
@@ -116,8 +148,17 @@ namespace Connections.Controllers
             return CreatedAtAction("GetBrigade", new { brigade.id }, brigade);
         }
 
-        // DELETE: api/Brigades/5
+        /// <summary>
+        /// Usuwa brygadę, określoną przez jej ID, ze spisu brygad (bazy danych).
+        /// </summary>
+        /// <param name="id" example="901-01">Identyfikator brygady</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Brigade), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Brigade>> DeleteBrigade(string id)
         {
             Brigade brigade;
@@ -132,7 +173,7 @@ namespace Connections.Controllers
             }
 
             if (brigade == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.brigades.Remove(brigade);
             await _context.SaveChangesAsync();

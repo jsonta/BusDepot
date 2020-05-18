@@ -19,8 +19,14 @@ namespace Resources.Controllers
             _context = context;
         }
 
-        // GET: api/Drivers
+        /// <summary>
+        /// Wypisuje wszystkich kierowców z ich danymi w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Driver>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
         {
             try
@@ -35,8 +41,17 @@ namespace Resources.Controllers
             return await _context.Set<Driver>().OrderBy(driver => driver.id).ToListAsync();
         }
 
-        // GET: api/Drivers/5
+        /// <summary>
+        /// Wypisuje kierowcę ze szczegółami, określonego przez jego nr PESEL (ID).
+        /// </summary>
+        /// <param name="id" example="99123100000">Numer PESEL kierowcy</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Driver), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Driver>> GetDriver(long? id)
         {
             Driver driver;
@@ -51,13 +66,23 @@ namespace Resources.Controllers
             }
 
             if (driver == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return driver;
         }
 
-        // PUT: api/Drivers/5
+        /// <summary>
+        /// Aktualizuje dane kierowcy, określonego przez jego nr PESEL (ID).
+        /// </summary>
+        /// <param name="id" example="99123100000">Numer PESEL kierowcy</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Driver), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutDriver(long? id, Driver update)
         {
             Driver current;
@@ -83,7 +108,7 @@ namespace Resources.Controllers
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
@@ -97,8 +122,15 @@ namespace Resources.Controllers
             return Ok(update);
         }
 
-        // POST: api/Drivers
+        /// <summary>
+        /// Dodaje nowego kierowcę do spisu kierowców (bazy danych).
+        /// </summary>
+        /// <param name="driver">Dane osobowe kierowcy (w formie obiektu JSON). Wszystkie muszą być wypełnione, o ile nie zaznaczono inaczej.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Driver), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Driver>> PostDriver(Driver driver)
         {
             try
@@ -116,8 +148,17 @@ namespace Resources.Controllers
             return CreatedAtAction("GetDriver", new { driver.id }, driver);
         }
 
-        // DELETE: api/Drivers/5
+        /// <summary>
+        /// Usuwa kierowcę, określony przez jego nr PESEL (ID), ze spisu kierowców (bazy danych).
+        /// </summary>
+        /// <param name="id" example="99123100000">Numer PESEL kierowcy</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Driver), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Driver>> DeleteDriver(long? id)
         {
             Driver driver;
@@ -132,7 +173,7 @@ namespace Resources.Controllers
             }
 
             if (driver == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.drivers.Remove(driver);
             await _context.SaveChangesAsync();

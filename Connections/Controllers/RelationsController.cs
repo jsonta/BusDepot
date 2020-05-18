@@ -19,8 +19,14 @@ namespace Connections.Controllers
             _context = context;
         }
 
-        // GET: api/Relations
+        /// <summary>
+        /// Wypisuje wszystkie relacje ze szczegółami w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Relation>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Relation>>> GetRelations()
         {
             try
@@ -35,8 +41,17 @@ namespace Connections.Controllers
             return await _context.Set<Relation>().OrderBy(relation => relation.id).ToListAsync();
         }
 
-        // GET: api/Relations/5
+        /// <summary>
+        /// Wypisuje relację ze szczegółami, określoną przez jej ID.
+        /// </summary>
+        /// <param name="id" example="901-R1">Identyfikator relacji</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Relation), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Relation>> GetRelation(string id)
         {
             Relation relation;
@@ -51,13 +66,23 @@ namespace Connections.Controllers
             }
 
             if (relation == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return relation;
         }
 
-        // PUT: api/Relations/5
+        /// <summary>
+        /// Aktualizuje szczegóły relacji, określonej przez jej ID.
+        /// </summary>
+        /// <param name="id" example="901-R1">Identyfikator relacji</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Relation), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutRelation(string id, Relation update)
         {
             Relation current;
@@ -98,8 +123,15 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Relations
+        /// <summary>
+        /// Dodaje nową relację do spisu relacji (bazy danych).
+        /// </summary>
+        /// <param name="relation">Parametry relacji (w formie obiektu JSON). Wszystkie muszą być wypełnione.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Relation), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Relation>> PostRelation(Relation relation)
         {
             try
@@ -117,8 +149,17 @@ namespace Connections.Controllers
             return CreatedAtAction("GetRelation", new { relation.id }, relation);
         }
 
-        // DELETE: api/Relations/5
+        /// <summary>
+        /// Usuwa relację, określoną przez jej ID, ze spisu relacji (bazy danych).
+        /// </summary>
+        /// <param name="id" example="901-R1">Identyfikator relacji</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Brigade), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Relation>> DeleteRelation(string id)
         {
             Relation relation;
@@ -133,7 +174,7 @@ namespace Connections.Controllers
             }
 
             if (relation == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.relations.Remove(relation);
             await _context.SaveChangesAsync();

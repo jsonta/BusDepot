@@ -19,8 +19,14 @@ namespace Connections.Controllers
             _context = context;
         }
 
-        // GET: api/Timetables
+        /// <summary>
+        /// Wypisuje wszystkie wpisy ze szczegółami w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Timetable>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Timetable>>> Getbrigades_timetable()
         {
             try
@@ -35,8 +41,17 @@ namespace Connections.Controllers
             return await _context.Set<Timetable>().OrderBy(brigade => brigade.id).ToListAsync();
         }
 
-        // GET: api/Timetables/5
+        /// <summary>
+        /// Wypisuje wpis ze szczegółami, określony przez jego ID.
+        /// </summary>
+        /// <param name="id" example="1">Identyfikator wpisu</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Timetable), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Timetable>> GetTimetable(int id)
         {
             Timetable timetable;
@@ -51,15 +66,23 @@ namespace Connections.Controllers
             }
 
             if (timetable == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return timetable;
         }
 
-        // PUT: api/Timetables/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Aktualizuje szczegóły wpisu, określonego przez jego ID.
+        /// </summary>
+        /// <param name="id" example="1">Identyfikator wpisu</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Timetable), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutTimetable(int id, Timetable update)
         {
             Timetable current;
@@ -86,7 +109,7 @@ namespace Connections.Controllers
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
@@ -100,10 +123,15 @@ namespace Connections.Controllers
             return Ok(update);
         }
 
-        // POST: api/Timetables
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Dodaje nowy wpis do spisu (bazy danych).
+        /// </summary>
+        /// <param name="timetable">Parametry (w formie obiektu JSON). Wszystkie muszą być wypełnione.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Timetable), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Timetable>> PostTimetable(Timetable timetable)
         {
             try
@@ -121,8 +149,17 @@ namespace Connections.Controllers
             return CreatedAtAction("GetTimetable", new { timetable.id }, timetable);
         }
 
-        // DELETE: api/Timetables/5
+        /// <summary>
+        /// Usuwa wpis, określony przez jego ID, ze spisu (bazy danych).
+        /// </summary>
+        /// <param name="id" example="1">Identyfikator wpisu</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Timetable), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Timetable>> DeleteTimetable(int id)
         {
             Timetable timetable;
@@ -137,7 +174,7 @@ namespace Connections.Controllers
             }
 
             if (timetable == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.brigades_timetable.Remove(timetable);
             await _context.SaveChangesAsync();

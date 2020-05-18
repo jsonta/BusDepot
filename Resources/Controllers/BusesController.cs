@@ -19,8 +19,14 @@ namespace Resources.Controllers
             _context = context;
         }
 
-        // GET: api/Buses
+        /// <summary>
+        /// Wypisuje wszystkie autobusy ze szczegółami w formie listy.
+        /// </summary>
+        /// <response code="200">Lista obiektów JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Bus>), 200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<Bus>>> GetBuses()
         {
             try
@@ -35,8 +41,17 @@ namespace Resources.Controllers
             return await _context.Set<Bus>().OrderBy(bus => bus.id).ToListAsync();
         }
 
-        // GET: api/Buses/5
+        /// <summary>
+        /// Wypisuje autobus ze szczegółami, określony przez jego ID.
+        /// </summary>
+        /// <param name="id" example="1000">Numer boczny autobusu</param>
+        /// <response code="200">Obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Bus), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Bus>> GetBus(int? id)
         {
             Bus bus;
@@ -51,13 +66,23 @@ namespace Resources.Controllers
             }
 
             if (bus == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             return bus;
         }
 
-        // PUT: api/Buses/5
+        /// <summary>
+        /// Aktualizuje szczegóły autobusu, określonego przez jego ID.
+        /// </summary>
+        /// <param name="id" example="1000">Numer boczny autobusu</param>
+        /// <param name="update">Parametry, jakie mają zostać zaktualizowane (w formie obiektu JSON). Wystarczy podać tylko nowe wartości - pozostałe zostaną skopiowane.</param>
+        /// <response code="200">Aktualizacja pomyślna, zaktualizowany obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Bus), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> PutBus(int? id, Bus update)
         {
             Bus current;
@@ -83,7 +108,7 @@ namespace Resources.Controllers
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
@@ -97,8 +122,15 @@ namespace Resources.Controllers
             return Ok(update);
         }
 
-        // POST: api/Buses
+        /// <summary>
+        /// Dodaje nowy autobus do spisu autobusów (bazy danych).
+        /// </summary>
+        /// <param name="bus">Parametry autobusu (w formie obiektu JSON). Wszystkie muszą być wypełnione.</param>
+        /// <response code="201">Pomyślnie stworzono, nowy obiekt JSON</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpPost]
+        [ProducesResponseType(typeof(Bus), 201)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Bus>> PostBus(Bus bus)
         {
             try
@@ -116,8 +148,17 @@ namespace Resources.Controllers
             return CreatedAtAction("GetBus", new { bus.id }, bus);
         }
 
-        // DELETE: api/Buses/5
+        /// <summary>
+        /// Usuwa autobus, określony przez jego ID, ze spisu autobusów (bazy danych).
+        /// </summary>
+        /// <param name="id" example="1000">Numer boczny autobusu</param>
+        /// <response code="200">Operacja wykonana pomyślnie, usunięty obiekt JSON</response>
+        /// <response code="404">Nie znaleziono</response>
+        /// <response code="500">Błąd serwera SQL</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Bus), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<Bus>> DeleteBus(int? id)
         {
             Bus bus;
@@ -132,7 +173,7 @@ namespace Resources.Controllers
             }
 
             if (bus == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.buses.Remove(bus);
             await _context.SaveChangesAsync();
