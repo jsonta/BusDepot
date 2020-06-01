@@ -9,7 +9,7 @@ using Resources.Models;
 
 namespace Resources.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("resources/[controller]")]
     [ApiController]
     public class DriversController : ControllerBase
     {
@@ -83,7 +83,7 @@ namespace Resources.Controllers
         [ProducesResponseType(typeof(Driver), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PutDriver(long? id, Driver update)
+        public async Task<IActionResult> PutDriver(int? id, Driver update)
         {
             Driver current;
 

@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Connections.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("connections/[controller]")]
     [ApiController]
     public class RelationsController : ControllerBase
     {

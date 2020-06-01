@@ -5,11 +5,11 @@ namespace Resources.Models
     public class Driver
     {
         /// <summary>
-        /// Numer PESEL kierowcy, będący jednocześnie jego ID.
+        /// Identyfikator kierowcy.
         /// </summary>
-        /// <example>99123100000</example>
+        /// <example>1</example>
         [Required]
-        public long? id { get; set; }
+        public int? id { get; set; }
 
         /// <summary>
         /// Imię kierowcy.
@@ -24,6 +24,13 @@ namespace Resources.Models
         /// <example>Kowalski</example>
         [Required]
         public string lname { get; set; }
+
+        /// <summary>
+        /// Numer PESEL kierowcy.
+        /// </summary>
+        /// <example>99123100000</example>
+        [Required]
+        public long? pesel { get; set; }
 
         /// <summary>
         /// Data urodzenia kierowcy (YYYY-MM-DD)
@@ -50,20 +57,20 @@ namespace Resources.Models
         /// </summary>
         /// <example>Stacyjna</example>
         [Required]
-        public string addr_strtname { get; set; }
+        public string street { get; set; }
 
         /// <summary>
         /// Adres zamieszkania kierowcy - numer budynku.
         /// </summary>
         /// <example>1</example>
         [Required]
-        public int? addr_bldgnmbr { get; set; }
+        public int? building { get; set; }
 
         /// <summary>
         /// Adres zamieszkania kierowcy - numer mieszkania/lokalu (opcjonalnie).
         /// </summary>
         /// <example>2</example>
-        public int? addr_apmtnmbr { get; set; }
+        public int? apartment { get; set; }
 
         /// <summary>
         /// Adres zamieszkania kierowcy - miasto.

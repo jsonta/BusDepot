@@ -9,7 +9,7 @@ using Resources.Models;
 
 namespace Resources.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("resources/[controller]")]
     [ApiController]
     public class BusesController : ControllerBase
     {
