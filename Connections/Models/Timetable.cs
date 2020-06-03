@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Connections.Models
 {
@@ -7,7 +8,6 @@ namespace Connections.Models
         /// <summary>
         /// Numer pozycji wpisu rozkładu jazdy (generowany automatycznie).
         /// </summary>
-        [Required]
         public int id { get; set; }
 
         /// <summary>
@@ -32,14 +32,14 @@ namespace Connections.Models
         public char remarks { get; set; }
 
         /// <summary>
-        /// Godzina odjazdu z przystanku początkowego (HH:mm).
+        /// Godzina odjazdu z przystanku początkowego (HH:mm). Baza danych przechowuje w tej kolumnie TYLKO godzinę.
         /// </summary>
         /// <example>07:00</example>
         [Required]
         public string dep_time { get; set; }
 
         /// <summary>
-        /// Godzina przyjazdu na przystanek końcowy (HH:mm).
+        /// Godzina przyjazdu na przystanek końcowy (HH:mm). Baza danych przechowuje w tej kolumnie TYLKO godzinę.
         /// </summary>
         /// <example>07:30</example>
         [Required]

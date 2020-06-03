@@ -33,9 +33,9 @@ namespace Resources.Controllers
             {
                 _context.drivers.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             return await _context.Set<Driver>().OrderBy(driver => driver.id).ToListAsync();
@@ -52,7 +52,7 @@ namespace Resources.Controllers
         [ProducesResponseType(typeof(Driver), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<Driver>> GetDriver(long? id)
+        public async Task<ActionResult<Driver>> GetDriver(int? id)
         {
             Driver driver;
 
@@ -60,9 +60,9 @@ namespace Resources.Controllers
             {
                 driver = await _context.drivers.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (driver == null)
@@ -85,23 +85,23 @@ namespace Resources.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PutDriver(int? id, Driver update)
         {
-            Driver current;
+            Driver driver;
 
             try
             {
-                current = await _context.drivers.FindAsync(id);
-                _context.Entry(current).State = EntityState.Detached;
+                driver = await _context.drivers.FindAsync(id);
+                _context.Entry(driver).State = EntityState.Detached;
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
-            if (current != null)
+            if (driver != null)
             {
                 foreach (PropertyInfo pi in typeof(Driver).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
+                    if ((pi.GetValue(update) != pi.GetValue(driver)) && (pi.GetValue(update) != null))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
                     else if (pi.Name.Equals("id"))
                         update.id = id;
@@ -113,13 +113,15 @@ namespace Resources.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _context.Entry(update).State = EntityState.Detached;
+                driver = await _context.drivers.FindAsync(id);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
             }
 
-            return Ok(update);
+            return Ok(driver);
         }
 
         /// <summary>
@@ -137,13 +139,20 @@ namespace Resources.Controllers
             {
                 _context.drivers.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             _context.drivers.Add(driver);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return CreatedAtAction("GetDriver", new { driver.id }, driver);
         }
@@ -159,7 +168,7 @@ namespace Resources.Controllers
         [ProducesResponseType(typeof(Driver), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<Driver>> DeleteDriver(long? id)
+        public async Task<ActionResult<Driver>> DeleteDriver(int? id)
         {
             Driver driver;
 
@@ -167,16 +176,23 @@ namespace Resources.Controllers
             {
                 driver = await _context.drivers.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (driver == null)
                 return NotFound("Nie znaleziono");
 
             _context.drivers.Remove(driver);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return driver;
         }

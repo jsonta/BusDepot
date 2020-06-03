@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cf62c0bd-cebf-49e4-9a09-647af17c812d",
+		"_postman_id": "46dd9d09-22ad-4313-8c4f-672ff1ef0c02",
 		"name": "Connections",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,14 +17,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Lines",
+					"raw": "https://localhost:5002/connections/Lines",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Lines"
 					]
 				}
@@ -43,14 +43,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Lines/65",
+					"raw": "https://localhost:5002/connections/Lines/65",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Lines",
 						"65"
 					]
@@ -74,14 +74,14 @@
 					"raw": "{\n\t\"Id\": 401,\n\t\"Name\": \"A\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Lines",
+					"raw": "https://localhost:5002/connections/Lines",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Lines"
 					]
 				}
@@ -104,14 +104,14 @@
 					"raw": "{\n\t\"Name\": \"H\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Lines/401",
+					"raw": "https://localhost:5002/connections/Lines/401",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Lines",
 						"401"
 					]
@@ -131,14 +131,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Lines/401",
+					"raw": "https://localhost:5002/connections/Lines/401",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Lines",
 						"401"
 					]
@@ -158,14 +158,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Relations",
+					"raw": "https://localhost:5002/connections/Relations",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Relations"
 					]
 				}
@@ -184,16 +184,16 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Relations/065-R2",
+					"raw": "https://localhost:5002/connections/relations/065-R1",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
-						"Relations",
-						"065-R2"
+						"connections",
+						"relations",
+						"065-R1"
 					]
 				}
 			},
@@ -212,17 +212,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Id\": \"065-R3\",\n\t\"Line\": 65,\n\t\"Start\": 2,\n\t\"End\": 2\n}"
+					"raw": "{\n\t\"Id\": \"065-R3\",\n\t\"Line\": 65,\n\t\"Start\": 1,\n\t\"End\": 1\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Relations/",
+					"raw": "https://localhost:5002/connections/Relations/",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Relations",
 						""
 					]
@@ -246,14 +246,14 @@
 					"raw": "{\n\t\"Line\": 65,\n\t\"Start\": 2,\n\t\"End\": 2\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Relations/065-R3",
+					"raw": "https://localhost:5002/connections/Relations/065-R3",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Relations",
 						"065-R3"
 					]
@@ -273,14 +273,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Relations/065-R3",
+					"raw": "https://localhost:5002/connections/Relations/065-R3",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Relations",
 						"065-R3"
 					]
@@ -300,14 +300,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Remarks",
+					"raw": "https://localhost:5002/connections/Remarks",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Remarks"
 					]
 				}
@@ -326,14 +326,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Remarks/-",
+					"raw": "https://localhost:5002/connections/Remarks/-",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Remarks",
 						"-"
 					]
@@ -357,14 +357,14 @@
 					"raw": "{\n\t\"Id\": \"z\",\n\t\"Name\": \"Z\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Remarks",
+					"raw": "https://localhost:5002/connections/Remarks",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Remarks"
 					]
 				}
@@ -387,14 +387,14 @@
 					"raw": "{\n\t\"Name\": \"Zjazd do zajezdni\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Remarks/z",
+					"raw": "https://localhost:5002/connections/Remarks/z",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Remarks",
 						"z"
 					]
@@ -414,14 +414,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Remarks/z",
+					"raw": "https://localhost:5002/connections/Remarks/z",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Remarks",
 						"z"
 					]
@@ -441,14 +441,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Terminus",
+					"raw": "https://localhost:5002/connections/Terminus",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Terminus"
 					]
 				}
@@ -467,15 +467,15 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Terminus/1",
+					"raw": "https://localhost:5002/connections/terminus/1",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
-						"Terminus",
+						"connections",
+						"terminus",
 						"1"
 					]
 				}
@@ -498,14 +498,14 @@
 					"raw": "{\n\t\"Name\": \"Struga Zajezdnia\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Terminus",
+					"raw": "https://localhost:5002/connections/Terminus",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Terminus"
 					]
 				}
@@ -528,14 +528,14 @@
 					"raw": "{\n\t\"Name\": \"Struga MZK\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/Terminus/3",
+					"raw": "https://localhost:5002/connections/Terminus/3",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Terminus",
 						"3"
 					]
@@ -555,14 +555,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/Terminus/3",
+					"raw": "https://localhost:5002/connections/Terminus/3",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"Terminus",
 						"3"
 					]
@@ -582,14 +582,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/brigades",
+					"raw": "https://localhost:5002/connections/brigades",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"brigades"
 					]
 				}
@@ -608,14 +608,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/brigades/065-01",
+					"raw": "https://localhost:5002/connections/brigades/065-01",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"brigades",
 						"065-01"
 					]
@@ -639,14 +639,14 @@
 					"raw": "{\n\t\"Id\": \"065-02\",\n\t\"Line\": 65,\n\t\"In_service\": false\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/brigades",
+					"raw": "https://localhost:5002/connections/brigades",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"brigades"
 					]
 				}
@@ -669,14 +669,14 @@
 					"raw": "{\n\t\"Line\": 401\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/brigades/065-02",
+					"raw": "https://localhost:5002/connections/brigades/065-02",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"brigades",
 						"065-02"
 					]
@@ -696,14 +696,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/brigades/065-02",
+					"raw": "https://localhost:5002/connections/brigades/065-02",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"brigades",
 						"065-02"
 					]
@@ -723,14 +723,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/timetables",
+					"raw": "https://localhost:5002/connections/timetables",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"timetables"
 					]
 				}
@@ -749,14 +749,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/timetables/1",
+					"raw": "https://localhost:5002/connections/timetables/1",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"timetables",
 						"1"
 					]
@@ -777,17 +777,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Brigade\": \"065-01\",\n\t\"Relation\": \"065-R2\",\n\t\"Dep_time\": \"01.03\",\n\t\"Arr_time\": \"01.04\",\n\t\"Remarks\": \"-\"\n}"
+					"raw": "{\n\t\"Brigade\": \"065-01\",\n\t\"Relation\": \"065-R2\",\n\t\"Dep_time\": \"01:05\",\n\t\"Arr_time\": \"01:06\",\n\t\"Remarks\": \"a\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/timetables",
+					"raw": "https://localhost:5002/connections/timetables",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"timetables"
 					]
 				}
@@ -807,17 +807,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Dep_time\": \"02.03\",\n\t\"Arr_time\": \"03.04\",\n\t\"Remarks\": \"-\"\n}"
+					"raw": "{\n\t\"Dep_time\": \"02.03\",\n\t\"Arr_time\": \"03.04\",\n\t\"Remarks\": \"b\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5001/api/timetables/2",
+					"raw": "https://localhost:5002/connections/timetables/2",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"timetables",
 						"2"
 					]
@@ -837,14 +837,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5001/api/timetables/2",
+					"raw": "https://localhost:5002/connections/timetables/2",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5001",
+					"port": "5002",
 					"path": [
-						"api",
+						"connections",
 						"timetables",
 						"2"
 					]

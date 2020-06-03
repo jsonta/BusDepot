@@ -33,9 +33,9 @@ namespace Connections.Controllers
             {
                 _context.brigades_timetable.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             return await _context.Set<Timetable>().OrderBy(brigade => brigade.id).ToListAsync();
@@ -60,9 +60,9 @@ namespace Connections.Controllers
             {
                 timetable = await _context.brigades_timetable.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (timetable == null)
@@ -85,24 +85,24 @@ namespace Connections.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PutTimetable(int id, Timetable update)
         {
-            Timetable current;
+            Timetable timetable;
 
             try
             {
-                current = await _context.brigades_timetable.FindAsync(id);
-                _context.Entry(current).State = EntityState.Detached;
+                timetable = await _context.brigades_timetable.FindAsync(id);
+                _context.Entry(timetable).State = EntityState.Detached;
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
-            if (current != null)
+            if (timetable != null)
             {
                 update.id = id;
                 foreach (PropertyInfo pi in typeof(Timetable).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current))
+                    if ((pi.GetValue(update) != pi.GetValue(timetable))
                         && (pi.GetValue(update) != null)
                         && (!pi.Name.Equals("id")))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
@@ -114,13 +114,15 @@ namespace Connections.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _context.Entry(update).State = EntityState.Detached;
+                timetable = await _context.brigades_timetable.FindAsync(id);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
             }
 
-            return Ok(update);
+            return Ok(timetable);
         }
 
         /// <summary>
@@ -138,13 +140,20 @@ namespace Connections.Controllers
             {
                 _context.brigades_timetable.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             _context.brigades_timetable.Add(timetable);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return CreatedAtAction("GetTimetable", new { timetable.id }, timetable);
         }
@@ -168,16 +177,23 @@ namespace Connections.Controllers
             {
                 timetable = await _context.brigades_timetable.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (timetable == null)
                 return NotFound("Nie znaleziono");
 
             _context.brigades_timetable.Remove(timetable);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return timetable;
         }

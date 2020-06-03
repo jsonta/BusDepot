@@ -20,7 +20,10 @@ namespace Resources
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().ConfigureApiBehaviorOptions(options => { options.SuppressMapClientErrors = true; });
+            services.AddMvc().ConfigureApiBehaviorOptions(options => {
+                options.SuppressMapClientErrors = true;
+                options.SuppressModelStateInvalidFilter = true;
+            });
             services.AddControllers();
             services.AddEntityFrameworkNpgsql().AddDbContext<RsrcsContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
             services.AddSwagger();

@@ -54,11 +54,18 @@ namespace Resources.Models
         public int? yr_prch { get; set; }
 
         /// <summary>
-        /// Ilość wszystkich miejsc (stojących i siedzących) łącznie.
+        /// Ilość miejsc stojących.
         /// </summary>
-        /// <example>98</example>
+        /// <example>60</example>
         [Required]
-        public int? amnt_plcs { get; set; }
+        public int? stand_plcs { get; set; }
+
+        /// <summary>
+        /// Ilość miejsc siedzących.
+        /// </summary>
+        /// <example>28</example>
+        [Required]
+        public int? sit_plcs { get; set; }
 
         /// <summary>
         /// Klasa pojemnościowa (MIDI, MAXI, MEGA) autobusu.

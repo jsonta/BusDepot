@@ -33,9 +33,9 @@ namespace Connections.Controllers
             {
                 _context.terminus.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             return await _context.Set<Terminus>().OrderBy(terminus => terminus.id).ToListAsync();
@@ -60,9 +60,9 @@ namespace Connections.Controllers
             {
                 terminus = await _context.terminus.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (terminus == null)
@@ -85,23 +85,23 @@ namespace Connections.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PutTerminus(int? id, Terminus update)
         {
-            Terminus current;
+            Terminus terminus;
 
             try
             {
-                current = await _context.terminus.FindAsync(id);
-                _context.Entry(current).State = EntityState.Detached;
+                terminus = await _context.terminus.FindAsync(id);
+                _context.Entry(terminus).State = EntityState.Detached;
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
-            if (current != null)
+            if (terminus != null)
             {
                 foreach (PropertyInfo pi in typeof(Terminus).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
+                    if ((pi.GetValue(update) != pi.GetValue(terminus)) && (pi.GetValue(update) != null))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
                     else if (pi.Name.Equals("id"))
                         update.id = id;
@@ -113,13 +113,15 @@ namespace Connections.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _context.Entry(update).State = EntityState.Detached;
+                terminus = await _context.terminus.FindAsync(id);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
             }
 
-            return Ok(update);
+            return Ok(terminus);
         }
 
         /// <summary>
@@ -137,13 +139,20 @@ namespace Connections.Controllers
             {
                 _context.terminus.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             _context.terminus.Add(terminus);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return CreatedAtAction("GetTerminus", new { terminus.id }, terminus);
         }
@@ -167,16 +176,23 @@ namespace Connections.Controllers
             {
                 terminus = await _context.terminus.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (terminus == null)
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             _context.terminus.Remove(terminus);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return terminus;
         }

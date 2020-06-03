@@ -5,10 +5,9 @@ namespace Connections.Models
     public class Terminus
     {
         /// <summary>
-        /// Identyfikator przystanku początkowego/końcowego.
+        /// Identyfikator przystanku początkowego/końcowego (generowany automatycznie).
         /// </summary>
         /// <example>1</example>
-        [Required]
         public int? id { get; set; }
 
         /// <summary>

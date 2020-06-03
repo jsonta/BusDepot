@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9d00f96f-4973-4ccd-8d2e-bc1f9ec2d034",
+		"_postman_id": "63392b0f-73cc-4e02-ba23-e5568ae96af3",
 		"name": "Resources",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,14 +17,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5000/api/Buses",
+					"raw": "https://localhost:5001/resources/Buses",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Buses"
 					]
 				}
@@ -43,16 +43,16 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5000/api/Buses/2804",
+					"raw": "https://localhost:5001/resources/Buses/2803",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Buses",
-						"2804"
+						"2803"
 					]
 				}
 			},
@@ -71,17 +71,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Id\": 2803,\n\t\"Brand\": \"Solaris\",\n\t\"Model\": \"Urbino 12\",\n\t\"Axes\": 1,\n\t\"VRN\": \"ZS 4997L\",\n\t\"yr_prod\": 2008,\n\t\"yr_prch\": 2008,\n\t\"amnt_plcs\": 98,\n\t\"cpct_class\": \"Maxi\",\n\t\"emsn_norm\": \"Euro4\",\n\t\"in_service\": false\n}"
+					"raw": "{\n\t\"Id\": 2803,\n\t\"Brand\": \"Solaris\",\n\t\"Model\": \"Urbino 12\",\n\t\"Axes\": 1,\n\t\"VRN\": \"ZS 4997L\",\n\t\"yr_prod\": 2008,\n\t\"yr_prch\": 2008,\n\t\"stand_plcs\": 60,\n\t\"sit_plcs\": 28,\n\t\"cpct_class\": \"Maxi\",\n\t\"emsn_norm\": \"Euro4\",\n\t\"in_service\": false\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5000/api/Buses",
+					"raw": "https://localhost:5001/resources/Buses",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Buses"
 					]
 				}
@@ -104,14 +104,14 @@
 					"raw": "{\n\t\"VRN\": \"ZS 66666\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5000/api/Buses/2803",
+					"raw": "https://localhost:5001/resources/Buses/2803",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Buses",
 						"2803"
 					]
@@ -131,14 +131,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5000/api/Buses/2803",
+					"raw": "https://localhost:5001/resources/Buses/2803",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Buses",
 						"2803"
 					]
@@ -158,14 +158,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5000/api/Drivers",
+					"raw": "https://localhost:5001/resources/Drivers",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Drivers"
 					]
 				}
@@ -184,16 +184,16 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:5000/api/Drivers/96111276069",
+					"raw": "https://localhost:5001/resources/Drivers/2",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Drivers",
-						"96111276069"
+						"2"
 					]
 				}
 			},
@@ -212,17 +212,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Id\": 96111276069,\n\t\"FName\": \"Lesława\",\n\t\"LName\": \"Wojciechowska\",\n\t\"BDay_date\": \"1996-11-12\",\n\t\"Phone\": 666125142,\n\t\"Email\": \"LeslawaWojciechowska@rhyta.com\",\n\t\"Addr_StrtName\": \"Plac Wojska Polskiego\",\n\t\"Addr_BldgNmbr\": 28,\n\t\"City\": \"Warszawa\",\n\t\"Zip\": \"05-075\",\n\t\"in_service\": false\n}"
+					"raw": "{\n\t\"FName\": \"Lesława\",\n\t\"LName\": \"Wojciechowska\",\n\t\"Pesel\": \"96111276069\",\n\t\"BDay_date\": \"1996-11-12\",\n\t\"Phone\": \"666125142\",\n\t\"Email\": \"LeslawaWojciechowska@rhyta.com\",\n\t\"street\": \"Plac Wojska Polskiego\",\n\t\"building\": 28,\n\t\"City\": \"Warszawa\",\n\t\"Zip\": \"05-075\",\n\t\"in_service\": false\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5000/api/Drivers",
+					"raw": "https://localhost:5001/resources/Drivers",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Drivers"
 					]
 				}
@@ -245,16 +245,16 @@
 					"raw": "{\n\t\"fname\": \"Marianna\",\n\t\"lname\": \"Marianowa\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5000/api/Drivers/96111276069",
+					"raw": "https://localhost:5001/resources/Drivers/1",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5001",
 					"path": [
-						"api",
+						"resources",
 						"Drivers",
-						"96111276069"
+						"1"
 					]
 				}
 			},
@@ -276,46 +276,16 @@
 					"raw": "{\n\t\"AddrFlatNmbr\": 0\n}"
 				},
 				"url": {
-					"raw": "https://localhost:5000/api/Drivers/96111276069",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"Drivers",
-						"96111276069"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Dodaj brygadę",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"Id\": \"065-01\",\n\t\"Line\": 65,\n\t\"Relation\": \"065-R1\",\n\t\"Dep_time\": \"00.00\",\n\t\"Arr_time\": \"00.00\",\n\t\"Remarks\": \"A\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:5001/api/brigades",
+					"raw": "https://localhost:5001/resources/Drivers/2",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "5001",
 					"path": [
-						"api",
-						"brigades"
+						"resources",
+						"Drivers",
+						"2"
 					]
 				}
 			},

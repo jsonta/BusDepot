@@ -33,9 +33,9 @@ namespace Connections.Controllers
             {
                 _context.relations.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             return await _context.Set<Relation>().OrderBy(relation => relation.id).ToListAsync();
@@ -60,9 +60,9 @@ namespace Connections.Controllers
             {
                 relation = await _context.relations.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (relation == null)
@@ -85,42 +85,44 @@ namespace Connections.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PutRelation(string id, Relation update)
         {
-            Relation current;
+            Relation relation;
 
             try
             {
-                current = await _context.relations.FindAsync(id);
-                _context.Entry(current).State = EntityState.Detached;
+                relation = await _context.relations.FindAsync(id);
+                _context.Entry(relation).State = EntityState.Detached;
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
-            if (current != null)
+            if (relation != null)
             {
                 update.id = id;
                 foreach (PropertyInfo pi in typeof(Relation).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current))
+                    if ((pi.GetValue(update) != pi.GetValue(relation))
                         && (pi.GetValue(update) != null)
                         && (!pi.Name.Equals("id")))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
                 }
             }
             else
-                return NotFound();
+                return NotFound("Nie znaleziono");
 
             try
             {
                 await _context.SaveChangesAsync();
+                _context.Entry(update).State = EntityState.Detached;
+                relation = await _context.relations.FindAsync(id);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
             }
 
-            return Ok(update);
+            return Ok(relation);
         }
 
         /// <summary>
@@ -138,13 +140,20 @@ namespace Connections.Controllers
             {
                 _context.relations.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             _context.relations.Add(relation);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return CreatedAtAction("GetRelation", new { relation.id }, relation);
         }
@@ -168,16 +177,23 @@ namespace Connections.Controllers
             {
                 relation = await _context.relations.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (relation == null)
                 return NotFound("Nie znaleziono");
 
             _context.relations.Remove(relation);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return relation;
         }

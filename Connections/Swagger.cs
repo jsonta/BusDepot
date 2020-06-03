@@ -13,10 +13,10 @@ namespace Connections
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("20200518", new OpenApiInfo
+                c.SwaggerDoc("20200603", new OpenApiInfo
                 {
                     Title = "BusDepot (Connections)",
-                    Version = "20200518",
+                    Version = "20200603",
                     Description = "Mikroserwis zarządzający połączeniami obsługiwanymi przez zajezdnię autobusową.",
                     Contact = new OpenApiContact
                     {
@@ -42,7 +42,7 @@ namespace Connections
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/20200518/swagger.json", "BusDepot (Connections)");
+                c.SwaggerEndpoint("/swagger/20200603/swagger.json", "BusDepot (Connections)");
                 c.RoutePrefix = string.Empty;
             });
         }

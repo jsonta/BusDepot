@@ -33,9 +33,9 @@ namespace Resources.Controllers
             {
                 _context.buses.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - "+e.MessageText+" (kod "+e.SqlState+")");
             }
 
             return await _context.Set<Bus>().OrderBy(bus => bus.id).ToListAsync();
@@ -60,9 +60,9 @@ namespace Resources.Controllers
             {
                 bus = await _context.buses.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (bus == null)
@@ -85,23 +85,23 @@ namespace Resources.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PutBus(int? id, Bus update)
         {
-            Bus current;
+            Bus bus;
 
             try
             {
-                current = await _context.buses.FindAsync(id);
-                _context.Entry(current).State = EntityState.Detached;
+                bus = await _context.buses.FindAsync(id);
+                _context.Entry(bus).State = EntityState.Detached;
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
-            if (current != null)
+            if (bus != null)
             {
                 foreach (PropertyInfo pi in typeof(Bus).GetProperties())
                 {
-                    if ((pi.GetValue(update) != pi.GetValue(current)) && (pi.GetValue(update) != null))
+                    if ((pi.GetValue(update) != pi.GetValue(bus)) && (pi.GetValue(update) != null))
                         _context.Entry(update).Property(pi.Name).IsModified = true;
                     else if (pi.Name.Equals("id"))
                         update.id = id;
@@ -113,13 +113,15 @@ namespace Resources.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _context.Entry(update).State = EntityState.Detached;
+                bus = await _context.buses.FindAsync(id);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                throw;
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - "+e.Message);
             }
 
-            return Ok(update);
+            return Ok(bus);
         }
 
         /// <summary>
@@ -137,13 +139,20 @@ namespace Resources.Controllers
             {
                 _context.buses.Any();
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             _context.buses.Add(bus);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return CreatedAtAction("GetBus", new { bus.id }, bus);
         }
@@ -167,16 +176,23 @@ namespace Resources.Controllers
             {
                 bus = await _context.buses.FindAsync(id);
             }
-            catch (PostgresException)
+            catch (PostgresException e)
             {
-                throw;
+                throw new NpgsqlException("Błąd serwera SQL - " + e.MessageText + " (kod " + e.SqlState + ")");
             }
 
             if (bus == null)
                 return NotFound("Nie znaleziono");
 
             _context.buses.Remove(bus);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Błąd podczas aktualizacji bazy danych - " + e.Message);
+            }
 
             return bus;
         }

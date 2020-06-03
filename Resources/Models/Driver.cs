@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Resources.Models
 {
     public class Driver
     {
         /// <summary>
-        /// Identyfikator kierowcy.
+        /// Identyfikator kierowcy (generowany automatycznie).
         /// </summary>
         /// <example>1</example>
-        [Required]
         public int? id { get; set; }
 
         /// <summary>
@@ -30,10 +30,10 @@ namespace Resources.Models
         /// </summary>
         /// <example>99123100000</example>
         [Required]
-        public long? pesel { get; set; }
+        public string pesel { get; set; }
 
         /// <summary>
-        /// Data urodzenia kierowcy (YYYY-MM-DD)
+        /// Data urodzenia kierowcy (YYYY-MM-DD). Baza danych przechowuje w tej kolumnie TYLKO datę.
         /// </summary>
         /// <example>1999-12-31</example>
         [Required]
@@ -44,7 +44,7 @@ namespace Resources.Models
         /// </summary>
         /// <example>123456789</example>
         [Required]
-        public long? phone { get; set; }
+        public string phone { get; set; }
 
         /// <summary>
         /// Adres e-mail kierowcy (opcjonalnie).
